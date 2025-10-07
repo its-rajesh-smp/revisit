@@ -9,16 +9,47 @@ import {
 } from "@/components/auth";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Login() {
+  const [userInput, setUserInput] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userInput),
+    });
+
+    const data = await res.json();
+    console.log(data);
+  };
+
   return (
     <AuthLayout title="Log in">
-      <form className="space-y-3">
+      <form className="space-y-3" onSubmit={handleSubmit}>
         {/* Email/Username Input */}
-        <AuthInput type="text" placeholder="Email or username" name="email" />
+        <AuthInput
+          value={userInput.email}
+          onChange={(e) =>
+            setUserInput({ ...userInput, email: e.target.value })
+          }
+          type="text"
+          placeholder="Email or username"
+          name="email"
+        />
 
         {/* Password Input with Forgot Link */}
         <AuthInput
+          value={userInput.password}
+          onChange={(e) =>
+            setUserInput({ ...userInput, password: e.target.value })
+          }
           type="password"
           placeholder="Password"
           name="password"
@@ -33,7 +64,12 @@ export default function Login() {
         />
 
         {/* Login Button */}
-        <Button className="w-full" variant="duolingo" size="duolingo">
+        <Button
+          type="submit"
+          className="w-full"
+          variant="duolingo"
+          size="duolingo"
+        >
           LOG IN
         </Button>
 

@@ -14,18 +14,54 @@ import { useState } from "react";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [userInput, setUserInput] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userInput),
+    });
+
+    const data = await res.json();
+    console.log(data);
+  };
 
   return (
     <AuthLayout title="Create your profile">
-      <form className="space-y-3">
+      <form className="space-y-3" onSubmit={handleSubmit}>
         {/* Name Input */}
-        <AuthInput type="text" placeholder="Name (optional)" name="name" />
+        <AuthInput
+          value={userInput.name}
+          onChange={(e) => setUserInput({ ...userInput, name: e.target.value })}
+          type="text"
+          placeholder="Name (optional)"
+          name="name"
+        />
 
         {/* Email Input */}
-        <AuthInput type="email" placeholder="Email" name="email" />
+        <AuthInput
+          value={userInput.email}
+          onChange={(e) =>
+            setUserInput({ ...userInput, email: e.target.value })
+          }
+          type="email"
+          placeholder="Email"
+          name="email"
+        />
 
         {/* Password Input with Toggle */}
         <AuthInput
+          value={userInput.password}
+          onChange={(e) =>
+            setUserInput({ ...userInput, password: e.target.value })
+          }
           type={showPassword ? "text" : "password"}
           placeholder="Password"
           name="password"
@@ -46,7 +82,12 @@ export default function Register() {
         />
 
         {/* Create Account Button */}
-        <Button className="w-full" variant="duolingo" size="duolingo">
+        <Button
+          type="submit"
+          className="w-full"
+          variant="duolingo"
+          size="duolingo"
+        >
           Create Account
         </Button>
 
