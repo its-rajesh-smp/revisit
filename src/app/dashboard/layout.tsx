@@ -1,4 +1,4 @@
-import AppNav from "@/components/app-nav";
+import { AppNav } from "./components";
 
 export default function DashboardLayout({
   children,

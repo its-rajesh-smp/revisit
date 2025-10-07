@@ -2,7 +2,6 @@ import { ChevronsUpDown } from "lucide-react";
 import { Select as SelectPrimitive } from "radix-ui";
 
 import Logo from "@/components/logo";
-import NotificationMenu from "@/components/notification-menu";
 import {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -24,7 +23,7 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select";
-import UserMenu from "@/components/user-menu";
+import { NotificationMenu, UserMenu } from ".";
 
 export default function AppNav() {
   return (
